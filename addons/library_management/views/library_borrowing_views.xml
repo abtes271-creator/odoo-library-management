@@ -1,0 +1,48 @@
+<odoo>
+
+    <record id="view_library_borrowing_form" model="ir.ui.view">
+        <field name="name">library.borrowing.form</field>
+        <field name="model">library.borrowing</field>
+        <field name="arch" type="xml">
+            <form>
+    <header>
+        <button name="action_borrow" type="object" string="Mark as Borrowed"
+                class="btn-primary" invisible="state != 'draft'"/>
+        <button name="action_return" type="object" string="Mark as Returned"
+                class="btn-primary" invisible="state != 'borrowed'"/>
+        <field name="state" widget="statusbar" statusbar_visible="draft,borrowed,returned"/>
+    </header>
+    <sheet>
+        <group>
+            <field name="book_id"/>
+            <field name="member_id"/>
+            <field name="borrow_date"/>
+            <field name="return_date"/>
+        </group>
+    </sheet>
+</form>
+        </field>
+    </record>
+
+    <record id="view_library_borrowing_tree" model="ir.ui.view">
+        <field name="name">library.borrowing.tree</field>
+        <field name="model">library.borrowing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <field name="borrow_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_library_borrowing" model="ir.actions.act_window">
+        <field name="name">Borrowings</field>
+        <field name="res_model">library.borrowing</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_library_borrowing" name="Borrowings" parent="menu_library_root" action="action_library_borrowing"/>
+
+</odoo>
