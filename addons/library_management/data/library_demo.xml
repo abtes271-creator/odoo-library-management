@@ -1,0 +1,45 @@
+<odoo>
+    <data noupdate="1">
+
+        <!-- Books -->
+        <record id="demo_book_1" model="library.book">
+            <field name="name">Clean Code</field>
+            <field name="author">Robert C. Martin</field>
+            <field name="isbn">9780132350884</field>
+            <field name="total_copies">3</field>
+            <field name="available_copies">3</field>
+        </record>
+
+        <record id="demo_book_2" model="library.book">
+            <field name="name">The Pragmatic Programmer</field>
+            <field name="author">Andrew Hunt</field>
+            <field name="isbn">9780135957059</field>
+            <field name="total_copies">2</field>
+            <field name="available_copies">2</field>
+        </record>
+
+        <record id="demo_book_3" model="library.book">
+            <field name="name">Introduction to Algorithms</field>
+            <field name="author">Thomas H. Cormen</field>
+            <field name="isbn">9780262046305</field>
+            <field name="total_copies">1</field>
+            <field name="available_copies">1</field>
+        </record>
+
+        <!-- Members -->
+        <record id="demo_member_1" model="library.member">
+            <field name="name">Abel Tesfaye</field>
+            <field name="email">abel@example.com</field>
+            <field name="phone">0911000001</field>
+            <field name="membership_date" eval="'2026-01-15'"/>
+        </record>
+
+        <record id="demo_member_2" model="library.member">
+            <field name="name">Sara Mekonnen</field>
+            <field name="email">sara@example.com</field>
+            <field name="phone">0911000002</field>
+            <field name="membership_date" eval="'2026-02-10'"/>
+        </record>
+
+    </data>
+</odoo>

@@ -5,22 +5,25 @@
         <field name="model">library.borrowing</field>
         <field name="arch" type="xml">
             <form>
-    <header>
-        <button name="action_borrow" type="object" string="Mark as Borrowed"
-                class="btn-primary" invisible="state != 'draft'"/>
-        <button name="action_return" type="object" string="Mark as Returned"
-                class="btn-primary" invisible="state != 'borrowed'"/>
-        <field name="state" widget="statusbar" statusbar_visible="draft,borrowed,returned"/>
-    </header>
-    <sheet>
-        <group>
-            <field name="book_id"/>
-            <field name="member_id"/>
-            <field name="borrow_date"/>
-            <field name="return_date"/>
-        </group>
-    </sheet>
-</form>
+                <header>
+                    <button name="action_borrow" type="object" string="Mark as Borrowed"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_return" type="object" string="Mark as Returned"
+                            class="btn-primary" invisible="state != 'borrowed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,borrowed,returned"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="book_id"/>
+                        <field name="member_id"/>
+                        <field name="borrow_date"/>
+                        <field name="due_date"/>
+                        <field name="return_date"/>
+                        <field name="is_overdue"/>
+                        <field name="fine_amount"/>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 
@@ -32,15 +35,57 @@
                 <field name="book_id"/>
                 <field name="member_id"/>
                 <field name="borrow_date"/>
+                <field name="due_date"/>
                 <field name="state"/>
+                <field name="is_overdue"/>
+                <field name="fine_amount"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_library_borrowing_search" model="ir.ui.view">
+        <field name="name">library.borrowing.search</field>
+        <field name="model">library.borrowing</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <filter string="Overdue" name="filter_overdue" domain="[('is_overdue', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_library_borrowing_graph" model="ir.ui.view">
+        <field name="name">library.borrowing.graph</field>
+        <field name="model">library.borrowing</field>
+        <field name="arch" type="xml">
+            <graph string="Borrowings Overview">
+                <field name="state" type="row"/>
+                <field name="fine_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_library_borrowing_pivot" model="ir.ui.view">
+        <field name="name">library.borrowing.pivot</field>
+        <field name="model">library.borrowing</field>
+        <field name="arch" type="xml">
+            <pivot string="Borrowings Overview">
+                <field name="state" type="row"/>
+                <field name="member_id" type="row"/>
+                <field name="fine_amount" type="measure"/>
+            </pivot>
         </field>
     </record>
 
     <record id="action_library_borrowing" model="ir.actions.act_window">
         <field name="name">Borrowings</field>
         <field name="res_model">library.borrowing</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="context">{'search_default_group_by_state': 1}</field>
     </record>
 
     <menuitem id="menu_library_borrowing" name="Borrowings" parent="menu_library_root" action="action_library_borrowing"/>
